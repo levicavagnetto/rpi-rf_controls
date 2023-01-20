@@ -1,0 +1,35 @@
+@Author - Levi Cavagnetto
+
+Purpose:
+This project was created as a test to see if I could control portable window air conditioning units using my iPhone.
+The overall goal is to gain more experience creating home automation devices and design a system that can work with many different devices (devices created by me and devices that I can buy, such as amazon echo or google home)
+
+Requirements:
+- An iPhone with the shortcuts app installed.
+- A Raspberry PI (with rf receiver and transmitter)
+- A server computer (can be configured to just use the same Raspberry PI used for sending the rf signals)
+
+Files:
+- rpi-rf_start.sh
+    * startup script to get the necessary programs running on the Raspberry PI
+- rpi-rf_server.py
+    * program that is run on the Raspberry PI that handles sending the rf signals to the outlets
+- rpi-rf_client.py
+    * program that is run on the server computer that takes the input from the iPhone shortcuts app and sends a message to the rpi-rf_server program
+- (iPhone shortcuts app) - script is not included
+    * ultimately runs a script over ssh "python3 rpi-rf_client.py <unit_number> <status>"
+        * unit number is which outlet that I want to turn on, and status is either on or off
+
+System Structure:
+I have a separate server and client program so that this simple system can be expanded in the future to incorporate different home automation controls. The system structure is as follows.
+
+There are 3 layers.
+- Layer 1: The user controls. This could be an iPhone (using the shortucts app), an Android phone app, a display connected to the network, or a website hosted on my home network.
+- Layer 2: The server computer. This computer is running and waits for any connections from any of the Layer 1 devices.
+- Layer 3: Hardware control devices. These devices are the machines that control physical devices (in this project, it's the Raspberry PI controlling the rf receiver outlets)
+
+As I have described above, the system is designed so that I can add any number of user control devices, where they all connect to one server and the server can send messages to any number of hardware control devices.
+
+NOTES:
+The project was a success, everything worked as planned and I am happy with the current system design that I created.
+Waiting for Matter (the new standard for home automation devices) to see what I can build with that
